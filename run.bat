@@ -1,6 +1,7 @@
 @echo off
 chcp 65001 >nul
 cd /d %~dp0
+set "HF_HOME=%~dp0.hf_cache"
 title CourseMate 选课咨询机器人
 
 REM ============ 找到 Python 解释器 ============
@@ -36,8 +37,11 @@ if not exist vector_index\vectors.npy (
 )
 
 REM ============ 启动 ============
-echo [3/3] 启动 CourseMate... 浏览器将自动打开 http://127.0.0.1:7860
+echo [3/3] 启动 CourseMate... 浏览器将花费十秒以打开 http://127.0.0.1:7860
 echo   提示: 关闭本窗口即停止服务。没有 Kimi API Key 时, 请在界面右下角
 echo          切换为 "本地微调模型" 引擎(无需联网申请, 首次加载模型约需下载 1GB)。
+
+start "" /b cmd /c "ping -n 11 127.0.0.1 >nul & start http://127.0.0.1:7860"
+
 "%PY%" src\app.py
 pause
