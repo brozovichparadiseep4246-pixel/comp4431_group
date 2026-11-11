@@ -4,6 +4,7 @@ from __future__ import annotations
 import asyncio
 import re
 import tempfile
+import uuid
 from pathlib import Path
 
 from config import TTS_VOICE_EN, TTS_VOICE_ZH, WHISPER_MODEL
@@ -42,10 +43,11 @@ def synthesize(text: str) -> str | None:
         return None
     plain = plain[:600]  # 避免过长音频
     voice = TTS_VOICE_ZH if detect_language(plain) == "zh" else TTS_VOICE_EN
-    out_path = str(Path(tempfile.gettempdir()) / f"coursemate_tts.mp3")
+    out_path = str(Path(tempfile.gettempdir()) / f"coursemate_tts_{uuid.uuid4().hex}.mp3")
     try:
         asyncio.run(_tts_to_file(plain, voice, out_path))
         return out_path
     except Exception as e:  # 网络问题等，降级为纯文本
+        Path(out_path).unlink(missing_ok=True)
         print(f"[TTS] 语音合成失败（不影响聊天）: {e}")
         return None
