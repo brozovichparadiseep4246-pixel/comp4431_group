@@ -1,0 +1,23 @@
+# ===== 环境与密钥（唯一必须排除的机密）=====
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+
+# ===== 下载缓存（可重新下载，勿上传）=====
+.hf_cache/
+
+# ===== Python 缓存 =====
+__pycache__/
+*.pyc
+*.pyo
+
+# ===== 训练中间输出（正式 adapter 目录不受影响）=====
+models/train_out/
+
+# ===== 系统 / 编辑器 =====
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
